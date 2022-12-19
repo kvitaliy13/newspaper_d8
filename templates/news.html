@@ -1,0 +1,76 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+<!-- Название у нас будет products -->
+{% block title %}
+Posts
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+   {# Добавляем форму, которая объединяет набор полей, которые будут отправляться в запросе #}
+   <form action="" method="get">
+       {# Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями #}
+       {{ filterset.form.as_p }}
+       {# Добавим кнопку отправки данных формы #}
+       <input type="submit" value="Найти" />
+
+
+   </form>
+
+<hr>
+{% if post %}
+
+</style>
+{% if is_not_authors %}
+<li class="nav-item"><a class="nav-link" href="/news/upgrade/"> Хочу стать Автором</a></li>
+{% else %}
+<li class="nav-item"><a class="nav-link" href="">Вы стали автором</a></li>
+{% endif %}
+
+       <table>
+
+           <tr>
+               <td ALIGN=left><p style="text-alding: justify;"><h4><strong>Дата</strong></h4></p> </td>
+               <td ALIGN=left><p style="text-alding: justify;"><h4><strong>Заголовок</strong></h4></p></td>
+               <td ALIGN=left><p style="text-alding: justify;"><h4><strong>Статья</strong></h4></p></td>
+
+           </tr>
+
+           {% for postss in post %}
+
+           <tr>
+
+
+               <td><p style="text-alding: justify;">{{ postss.time_in_post|date:'d M' }}</p></td>
+               <td ALIGN=left><p style="text-alding: justify;">{{ postss.title|censor }}</p></td>
+               <td ALIGN=left><p style="text-alding: justify;">  {{ postss.post_text|truncatechars:20}}  </p> </td>
+
+           </tr>
+           {% endfor %}
+
+       </table>
+    {% else %}
+<h3> Новостей нет </h3>>
+{% endif %}
+{% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+</hr>
+{% endblock content %}

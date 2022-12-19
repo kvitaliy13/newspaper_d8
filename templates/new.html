@@ -1,0 +1,29 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+<!-- Название у нас будет products -->
+{% block title %}
+Posts
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+
+{% if post %}
+
+<table>
+
+    <tr>
+        <td ALIGN=left><p style="text-alding: justify;"><h5>{{ post.time_in_post }}</p></h5></td>
+    </tr>
+    <tr>
+        <td ALIGN=left><p style="text-alding: justify;"><h4>{{ post.title|censor }}</h4></p></td>
+    </tr>
+    <tr>
+        <td ALIGN=left>{{ post.post_text|censor}}</td>
+    </tr>
+
+</table>
+{% endif %}
+
+{% endblock content %}
